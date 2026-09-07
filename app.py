@@ -30,6 +30,25 @@ def menu():
 # data cleaning
 # loops runs program
 
+def sub_menu():
+    def menu():
+    while True:
+        print('''
+              \n1) Edit
+              \r2) Delete
+              \r3) Return to main menu''')
+        choice = input('What would you like to do? ')
+        if choice in ['1', '2', '3']:
+            return choice
+        else:
+            input('''
+                  \rPLease choose one of the options above
+                  \rA number from 1-3.
+                  \rPress enter to try again.''')
+
+
+
+
 def clean_date(date_str):
     months = ['January', 'February', 'March', 'April', 'May', 'June', 
               'July', 'August', 'September', 'October', 'November', 'December']
@@ -152,7 +171,11 @@ def app():
                   \n{the_book.title} by {the_book.author}
                   \rPublished: {the_book.date_published}
                   \rPrice: £{the_book.price / 100}''')
-            input('\nPress enter to return to the main menu')
+            sub_choice = sub_menu
+            if sub_choice == '1':
+                pass
+            elif sub_choice == '2':
+                pass
             
         elif choice == '4':
             #analysus
