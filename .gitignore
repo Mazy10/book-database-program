@@ -3,4 +3,12 @@ env
 /__pycache__
 .vscode
 /1_Project_overview.py
+/2_Creating Our Book Database.py
+/3_Creating Our Book Database.py
+/4_setting up the app.py
+/5_import book csv.py
+/6_cleaning data.py
+/7_Create and Read Books.py
+/8_Search for a Book.py
+/9_Update and Delete Books.py
 

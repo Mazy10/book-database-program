@@ -22,16 +22,8 @@ def menu():
                   \rPLease choose one of the options above
                   \rA number from 1-5.
                   \rPress enter to try again.''')
-# main menu - add, search, analysis, exit, view 
-# add books to database
-# edit books
-# delete books
-# search books
-# data cleaning
-# loops runs program
 
 def sub_menu():
-    def menu():
     while True:
         print('''
               \n1) Edit
@@ -45,7 +37,7 @@ def sub_menu():
                   \rPLease choose one of the options above
                   \rA number from 1-3.
                   \rPress enter to try again.''')
-
+#to create the structure for each response in our app, we head back into the app function
 
 
 
@@ -104,7 +96,31 @@ def clean_id(id_str, options):
                   \rPress enter to try again
                   \r************************''')
                 return
-            
+
+
+def edit_check(column_name, current_value):
+    print(f'\n**** EDIT {column_name} ****')
+    if column_name == 'Price':
+        print(f'\rCurrent Value: {current_value/100}')
+    elif column_name == 'Date':
+        print(f'\rCurrent Value: {current_value.strftime("%B %d, %Y")}')
+    else:
+        print(f'\rCurrent Value: {current_value}')
+
+    if column_name == 'Date' or column_name == 'Price':
+        while True:
+            changes = input('What would like you to change the value to? ')
+            if column_name == 'Date':
+                changes = clean_date(changes)
+                if type(changes) == datetime.date:
+                    return changes
+            elif column_name == 'Price':
+                changes = clean_price(changes)
+                if type(changes) == int:
+                    return changes                    
+    else:
+        return input('What would like you to change the value to? ')
+
 
 def add_csv():
     with open('suggested_books.csv') as csvfile:
@@ -133,7 +149,7 @@ def app():
             author = input('Author: ')
             date_error = True
             while date_error:
-                date = input('Published Date (Example:October 25, 2017): ')
+                date = input('Published Date (Example: October 25, 2017): ')
                 date = clean_date(date)
                 if type(date) == datetime.date:
                     date_error = False
@@ -171,11 +187,32 @@ def app():
                   \n{the_book.title} by {the_book.author}
                   \rPublished: {the_book.date_published}
                   \rPrice: £{the_book.price / 100}''')
-            sub_choice = sub_menu
+            sub_choice = sub_menu()
             if sub_choice == '1':
-                pass
+                #edit
+                #we'll need to print out the current value for each book's title, date. etc
+                #so the user can see what the value currently is
+                #then we'l need to ask the to update the information
+                #need to repeat this for each column
+                #keywork: repeat
+                #need to this task for each value
+                #we need a function to handle this task so we can call it for each column
+                #new function will be after the cleaning function and before csv function
+                the_book.title = edit_check('Title', the_book.title)
+                the_book.author = edit_check('Author', the_book.author)
+                the_book.date_published = edit_check('Date', the_book.date_published)
+                the_book.price = edit_check('Price', the_book.price)
+                session.commit()
+                # print(session.dirty) use this to only check if the changes were added to the session
+                #once validated, you can comment our delete
+                print('Book updated!')
+                time.sleep(1.5)
             elif sub_choice == '2':
-                pass
+                #delete
+                session.delete(the_book)
+                session.commit()
+                print('Book deleted!')
+                time.sleep(1.5)
             
         elif choice == '4':
             #analysus
@@ -192,5 +229,5 @@ if __name__ == '__main__':
     app()
    
 
-    for book in session.query(Book):
-        print(book)
+    # for book in session.query(Book):
+    #     print(book)
