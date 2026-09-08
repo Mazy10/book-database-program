@@ -216,7 +216,16 @@ def app():
             
         elif choice == '4':
             #analysus
-            pass
+            oldest_book = session.query(Book).order_by(Book.date_published).first()
+            newest_book = session.query(Book).order_by(Book.date_published.desc()).first()
+            total_books = session.query(Book).count()
+            python_books = session.query(Book).filter(Book.title.like('%Python%')).count()
+            print(f'''
+                  \n**** BOOK ANALYSIS ****
+                  \rOldest Book: {oldest_book.title}
+                  \rNewest Book: {newest_book.title}
+                  \rNumber of Python Books: {python_books}''')
+            input('\nPress enter to return to the main menu')
         else:
             print('GOODBYE')
             app_running = False
